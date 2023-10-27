@@ -20,6 +20,8 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
+// Start1
+
 // 頂点データ構造体
 struct Vertex
 {
