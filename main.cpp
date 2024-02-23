@@ -216,14 +216,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	winApp_ = new WinApp();
 	winApp_->Initialize();
 
-	SpriteCommon* spriteCommon_ = nullptr;
-	Sprite* sp_ = nullptr;
 
-	spriteCommon_ = new SpriteCommon();
-	spriteCommon_->Initialize(dxCommon_);
-
-	sp_ = new Sprite();
-	sp_->Initialize(dxCommon_, spriteCommon_);
 
 #pragma endregion
 
@@ -242,6 +235,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 入力の初期化
 	input_ = new Input();
 	input_->Initialize(winApp_);
+
+	SpriteCommon* spriteCommon_ = nullptr;
+	Sprite* sp_ = nullptr;
+
+	spriteCommon_ = new SpriteCommon();
+	spriteCommon_->Initialize(dxCommon_);
+
+	sp_ = new Sprite();
+	sp_->Initialize(dxCommon_, spriteCommon_);
 
 #pragma region 描画初期化処理
 
@@ -731,73 +733,76 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			OutputDebugStringA("Hit 0\n");  // 出力ウィンドウに「Hit 0」と表示
 		}
 
-		// DirectX毎フレーム処理　ここから
-		static float red = 1.0f;
+		//// DirectX毎フレーム処理　ここから
+		//static float red = 1.0f;
 
-		if (input_->TriggerKey(DIK_SPACE)) {
-			red -= 0.01f;
-			red = max(0, red);
-			constMapMaterial->color = XMFLOAT4(red, 1.0f - red, 0, 0.5f);              // RGBAで半透明の赤
-		}
+		//if (input_->TriggerKey(DIK_SPACE)) {
+		//	red -= 0.01f;
+		//	red = max(0, red);
+		//	constMapMaterial->color = XMFLOAT4(red, 1.0f - red, 0, 0.5f);              // RGBAで半透明の赤
+		//}
 
-		if (input_->PushKey(DIK_D) || input_->PushKey(DIK_A))
-		{
-			if (input_->PushKey(DIK_D)) { angle += XMConvertToRadians(1.0f); }
-			else if (input_->PushKey(DIK_A)) { angle -= XMConvertToRadians(1.0f); }
+		//if (input_->PushKey(DIK_D) || input_->PushKey(DIK_A))
+		//{
+		//	if (input_->PushKey(DIK_D)) { angle += XMConvertToRadians(1.0f); }
+		//	else if (input_->PushKey(DIK_A)) { angle -= XMConvertToRadians(1.0f); }
 
-			// angleラジアンだけY軸まわりに回転。半径は-100
-			eye.x = -100 * sinf(angle);
-			eye.z = -100 * cosf(angle);
+		//	// angleラジアンだけY軸まわりに回転。半径は-100
+		//	eye.x = -100 * sinf(angle);
+		//	eye.z = -100 * cosf(angle);
 
-			matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-		}
+		//	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+		//}
 
-		// 座標操作
-		if (input_->PushKey(DIK_UP) || input_->PushKey(DIK_DOWN) || input_->PushKey(DIK_RIGHT) || input_->PushKey(DIK_LEFT))
-		{
-			if (input_->PushKey(DIK_UP)) { object3ds[0].position.y += 1.0f; }
-			else if (input_->PushKey(DIK_DOWN)) { object3ds[0].position.y -= 1.0f; }
-			if (input_->PushKey(DIK_RIGHT)) { object3ds[0].position.x += 1.0f; }
-			else if (input_->PushKey(DIK_LEFT)) { object3ds[0].position.x -= 1.0f; }
-		}
+		//// 座標操作
+		//if (input_->PushKey(DIK_UP) || input_->PushKey(DIK_DOWN) || input_->PushKey(DIK_RIGHT) || input_->PushKey(DIK_LEFT))
+		//{
+		//	if (input_->PushKey(DIK_UP)) { object3ds[0].position.y += 1.0f; }
+		//	else if (input_->PushKey(DIK_DOWN)) { object3ds[0].position.y -= 1.0f; }
+		//	if (input_->PushKey(DIK_RIGHT)) { object3ds[0].position.x += 1.0f; }
+		//	else if (input_->PushKey(DIK_LEFT)) { object3ds[0].position.x -= 1.0f; }
+		//}
 
-		// 全オブジェクトについて処理
-		for (size_t i = 0; i < _countof(object3ds); i++)
-		{
-			UpdateObject3d(&object3ds[i], matView, matProjection);
-		}
+		//// 全オブジェクトについて処理
+		//for (size_t i = 0; i < _countof(object3ds); i++)
+		//{
+		//	UpdateObject3d(&object3ds[i], matView, matProjection);
+		//}
 
 		dxCommon_->PreDraw();
 		
+
+
+
+		//// プリミティブ形状の設定コマンド
+		//dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		//// パイプラインステートとルートシグネチャの設定コマンド
+		//dxCommon_->GetCommandList()->SetPipelineState(pipelineState.Get());
+		//dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
+		//// 頂点バッファビューの設定コマンド
+		//dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+		//// インデックスバッファビューの設定コマンド
+		//dxCommon_->GetCommandList()->IASetIndexBuffer(&ibView);
+		//// 定数バッファビュー(CBV)の設定コマンド
+		//dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+		//// SRVヒープの設定コマンド
+		//ID3D12DescriptorHeap* descHeaps[] = { srvHeap.Get() };
+		//dxCommon_->GetCommandList()->SetDescriptorHeaps(1, descHeaps);
+		//// SRVヒープの先頭ハンドルを取得（SRVを指しているはず）
+		//D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+		//srvGpuHandle.ptr += textureIndex * dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+		//// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+		//dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+
+		//// 全オブジェクトについて処理
+		//for (int i = 0; i < _countof(object3ds); i++)
+		//{
+		//	DrawObject3d(&object3ds[i], dxCommon_->GetCommandList(), vbView, ibView, _countof(indices));
+		//}
+
+
 		sp_->Draw();
-
-
-		// プリミティブ形状の設定コマンド
-		dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-		// パイプラインステートとルートシグネチャの設定コマンド
-		dxCommon_->GetCommandList()->SetPipelineState(pipelineState.Get());
-		dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
-		// 頂点バッファビューの設定コマンド
-		dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
-		// インデックスバッファビューの設定コマンド
-		dxCommon_->GetCommandList()->IASetIndexBuffer(&ibView);
-		// 定数バッファビュー(CBV)の設定コマンド
-		dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-		// SRVヒープの設定コマンド
-		ID3D12DescriptorHeap* descHeaps[] = { srvHeap.Get() };
-		dxCommon_->GetCommandList()->SetDescriptorHeaps(1, descHeaps);
-		// SRVヒープの先頭ハンドルを取得（SRVを指しているはず）
-		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
-		srvGpuHandle.ptr += textureIndex * dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-		// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
-
-		// 全オブジェクトについて処理
-		for (int i = 0; i < _countof(object3ds); i++)
-		{
-			DrawObject3d(&object3ds[i], dxCommon_->GetCommandList(), vbView, ibView, _countof(indices));
-		}
 
 		// ４．描画コマンドここまで
 

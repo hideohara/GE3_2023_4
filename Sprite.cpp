@@ -43,14 +43,12 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common)
 	vertexBufferView.StrideInBytes = sizeof(XMFLOAT4);
 
 
-
-
 }
 
 void Sprite::Draw()
 {
-	XMFLOAT4* vertexData;
-	ComPtr<ID3D12Resource> vertexResource;
+	XMFLOAT4* vertexData = nullptr;
+	//ComPtr<ID3D12Resource> vertexResource;
 
 	// 書き込むためのアドレスを取得
 	vertexResource->Map(0, nullptr, reinterpret_cast<void**>(&vertexData));
@@ -65,6 +63,7 @@ void Sprite::Draw()
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(common_->GetRootSignature());
 	dxCommon_->GetCommandList()->SetPipelineState(common_->GetGraphicsPipelineState());   // PSOを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);   // VBVを設定
+
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// 形状を設定。PSOに設定しているものとはまた別。同じものを設定すると考えておけば良いcommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// 描画！（DrawCall/ドローコール）。3頂点で1つのインスタンス。インスタンスについては今後

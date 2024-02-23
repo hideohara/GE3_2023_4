@@ -63,10 +63,10 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 
 	// Shader‚ðƒRƒ“ƒpƒCƒ‹‚·‚é
-	IDxcBlob* vertexShaderBlob = CompileShader(L"Resources/SpriteVS.hlsl", L"vs_6_0", dxcUtils.Get(), dxcCompiler.Get(), includeHandler.Get());
+	IDxcBlob* vertexShaderBlob = CompileShader(L"Resources/shaders/SpriteVS.hlsl", L"vs_6_0", dxcUtils.Get(), dxcCompiler.Get(), includeHandler.Get());
 	assert(vertexShaderBlob != nullptr);
 
-	IDxcBlob* pixelShaderBlob = CompileShader(L"Resources/SpritePS.hlsl", L"ps_6_0", dxcUtils.Get(), dxcCompiler.Get(), includeHandler.Get());
+	IDxcBlob* pixelShaderBlob = CompileShader(L"Resources/shaders/SpritePS.hlsl", L"ps_6_0", dxcUtils.Get(), dxcCompiler.Get(), includeHandler.Get());
 	assert(pixelShaderBlob != nullptr);
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
